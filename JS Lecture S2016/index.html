@@ -207,9 +207,10 @@ bob.sayName(); // My name is bob
                 <pre><code class="hijs" data-trim contenteditable>
 'use strict'
 var somevariable = "this is a string";
+var bool = true;
 
-if(true) {
-    someVariable = "theres no var or ; here" //error here because of typo in variable name
+if(bool == true) { // a Linter will give a warning for not using ===
+    someVariable = "theres no var or ; here" // JS error here because of typo in variable name
 }
                 </code></pre>
                 
