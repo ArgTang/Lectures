@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Javascript</title>
+
+    <meta name="description" content="Javascript">
+    <meta name="author" content="ArgTang">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section>       
+                
+                <h2>Welcome to Javascript</h2>
+                
+            </section>
+            
+            <section>                
+                <h2> resources:</h2>  
+                <p><a href="http://speakingjs.com/">speakingjs</a></p>
+                <p><a href="https://github.com/getify/You-Dont-Know-JS">youdontknowjs</a></p>
+                <p><a href="https://github.com/airbnb/javascript">Airbnb JS styleguide</a></p>
+                
+                <aside class="notes">
+                    speakingjs - good learning book
+                    you don't know js ->  for a deep understanding of JS
+                    Airbnb styleguide -> quick overview of language
+                 </aside>                
+            </section>
+            
+            <section>
+                
+                <p>Javascript is a great language with some very bad parts</p>
+                <p>While it resembles both <em>PHP</em> and <em>Java</em>, it is based upon different sets of rules</p>
+                
+                <p class="fragment"> - Syntax like Java</p>
+                <p class="fragment"> - Typesystem like PHP</p>
+                
+                <aside class="notes">
+                        Type => A variable can hold any type of data. This can also change freely.
+                </aside>                
+            </section> 
+                       
+            <section>
+                <h2>But there are som <em>big</em> differences:</h2>
+                <p class="fragment"> - Everything is global</p>
+                <p class="fragment"> - Will do everything in its power to correct mistakes itself, to keep scripts running</p>
+                <p class="fragment"> - Javascript does not throw errors</p>
+                <p class="fragment"> - All variables and functions behave like objects</p>
+                <p class="fragment"> - There is no blueprint classes, only instances of objects</p>
+                
+                <aside class="notes">
+                        If you want to learn more about javascript you will need to have an understanding of:
+                        - function scope https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions
+                        - hoisting https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var
+                        - protoypal inheritance vs Classes https://medium.com/javascript-scene/the-heart-soul-of-prototypal-oo-concatenative-inheritance-a3b64cb27819#.yw2x48q99
+                 </aside>
+            </section>
+            
+            <section>
+                <p>Everything is global:</p>
+                <pre><code class="hljs" data-trim contenteditable>
+ //local var i?                   
+for (var i = 0; i < 3; i++) {
+    console.log(i + " "); // 1 2
+}
+
+console.log("i = " + i); // i = 3
+console.log("i = " + window.i); // i = 3
+
+function afunction() {
+    var a = "I'm a local variable";
+    console.log(a); 
+};
+
+window.afunction(); // I'm a local variable
+console.log(a); // ReferenceError a is not defined
+                </code></pre>
+                
+                <aside class="notes">
+                    variables inside if\while\for takes the scope of the parent
+                    window = javascripts gloal object
+                    variables inside functions are "local" but not private
+                    
+                    Be careful with when having more files with similar variables
+                </aside>
+            </section>
+            
+            <section>
+                <p>Javascript does not throw errors:</p>
+                <pre><code class="hljs" data-trim contenteditable>
+var somevariable = "this is a string";
+
+if(true) {
+    someotherVariable = "there's no var or ; here"
+}
+
+var calc = 3 + true + [2, 4];
+
+console.log(someVariable); //"" 
+console.log(someotherVariable); // there's no var or ; here
+console.log(calc) // 42,4
+                </code></pre>
+                
+                <aside class="notes">
+                    you can do try, catch and throw yourself
+                    throw "this is an error"; //Uncaught this is an error
+                </aside>
+            </section>
+            
+            <section>
+                <p>Everything has objectlike behaviour</p>
+                <pre><code class="hljs" data-trim contenteditable>
+var a = 19;
+var b = a.toString(2); //object method called on a String primitive
+
+console.log(b); // 10011
+                </code></pre>
+            </section>
+            
+            <section>
+                <p>There is no blueprint classes, only instances of objects</p>
+                <pre><code class="hljs" data-trim contenteditable>
+    
+    var person  = function (name) {
+        this.name = name;
+        
+        this.sayHello = function() {
+            console.log("I " + this.name + ", say hello to you");
+        };
+    };
+
+    bob = new person("bob");
+    bob.sayHello(); //I bob, say hello to you
+
+bob instanceof person // true
+bob instanceof Object // true
+bob instanceof Function // false
+person instanceof Object // true
+person instanceof Function // true
+
+
+//add a function to current prototype
+person.prototype.sayName = function() { 
+    console.log("My name is " + this.name);
+};
+
+bob.sayName(); // My name is bob
+    
+                </code></pre>
+                
+                <aside class="notes">
+                    //adding a property to bob does not carry back to person
+                    bob.age = 43;
+                    console.log(bob.age) // 43
+                    person.age // undefined
+                    
+                </aside>
+            </section>
+                                  
+            <section>
+                <p>To help yourself not using the bad parts of javascript, we can use som tools: </p>
+                <p>- when you make a script put <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Strict_mode"><strong>'use strict'</strong></a> on the top</p>
+                <p>- install <strong><a href="http://jshint.com/install/">JSHint</a></strong> plugin in your editor</p>
+                
+                <aside class="notes">
+                    Practical note, if "use strict" and Linter is used, you won't see theese gotchas even if you write advanced JS stuff. These tools help you push the 
+                    edgecases of the hard and confisung parts out of reach.
+                    
+                    Q&A here
+                    jshint is a static code analyser that helps find possible bugs in your code
+                    for an explanation of the errors you get from your JSlinter see https://jslinterrors.com/
+                    
+                    The reason I dont recommend JSlint is that besides checking for bugs it has strong opinions on how to write the code. It is VERY strict,
+                    and can be very confusing. Later lintsers (like jshint) have a more reasonable ruleset.
+                    
+                    There are Linters and static code analysers for all languages. i.e. for java, findbugs and checkstyle are two popular plugins
+                </aside>
+            </section>
+            
+            <section>
+                <pre><code class="hijs" data-trim contenteditable>
+'use strict'
+var somevariable = "this is a string";
+
+if(true) {
+    someVariable = "theres no var or ; here" //error here because of typo in variable name
+}
+                </code></pre>
+                
+            </section>
+            
+            <section>
+                <p><strong>Tip 1:</strong> Declaring functions</p>
+                 <pre><code class="hijs" data-trim contenteditable>
+hello(); //this works
+goodbye(); //this does not (undefined)
+
+function hello() {
+    console.log("hello");
+}
+
+var goodbye = function() {
+    console.log("goodbye");
+}
+
+hello(); //this works
+goodbye(); //this works
+                </code></pre>
+                           
+                <aside class="notes">
+                    This has do do with hoisting in javascript. Hoisting is how JS reads and executes. 
+                    First it reads throuh the file and reserves memoryspace for variables and functions.
+                        If it is a function it includess the content of the function.
+                        If it is a variable it will set the value to undefined, because it knows that it will become a value later.
+                    After the scanning period it will execute the code.
+                    
+                    more info here: http://stackoverflow.com/questions/336859/<var-functionname-function-vs-function-functionname></var-functionname-function-vs-function-functionname>
+                </aside>
+            </section>
+            
+            <section>
+                <p><strong>Tip 2:</strong> IIFE. You will see this one when googling</p>
+                <pre><code class="hijs" data-trim contenteditable>
+//Immediately-Invoked Function Expression (IIFE) 'iffy'
+                  
+(function() {
+    console.log("I run immediatly after the file I'm in loads");
+})();
+
+// I run immediatly after the file I'm in loads
+
+
+
+
+
+
+
+
+
+
+
+
+//it is also used to make encapsulate properties
+'use strict';
+var car = (function() {    
+    var make = "mazda";
+    var model = 3;
+    
+    var printme = function () {
+        console.log(make + " " + model);
+    };
+    
+    return {
+        type: make,
+        info: printme
+    };
+})();
+
+car.type; // mazda
+car.make; // undefined
+car.info(); //mazda 3
+                </code></pre>
+                
+                <aside class="notes">
+                    http://benalman.com/news/2010/11/immediately-invoked-function-expression/
+                    
+                    iffys can also used to make methods and properties private from the outside
+                </aside>
+            </section>
+            
+            <section>
+                <p><strong>Tip 3:</strong> Select an element from the DOM</p>
+                <pre><code class="hljs" data-trim contenteditable>
+var element = document.getElementById(id);
+var element = document.getElementByClassName(className);
+var element = document.getElementByTagName(tag);
+var element = document.getElementByName(name);
+
+//use this
+var element = document.queryselector("css selector")
+
+var element = document.getElementsById(id);
+var element = document.getElementsByClassName(className);
+var element = document.getElementsByTagName(tag);
+var element = document.getElementsByName(name);
+
+//use this
+var element = document.queryselectorAll("css selector");
+                </code></pre>
+            </section>   
+                    
+            <section>
+                <p><strong>Tip 4:</strong> How to add an ActionListener</p>
+                <pre><code class="hljs" data-trim contenteditable>                    
+var button = document.queryselector("#myButton");
+
+var event = function() {
+    alert("hello world!");
+};
+
+button.addEventListener('click', event);
+//click, change, buttonpress, drag, mouseEnter etc
+                </code></pre>               
+                <aside class="notes">
+                    event types: https://developer.mozilla.org/en-US/docs/Web/Events
+                </aside> 
+            </section>
+            
+             <section>                
+                <p><strong>Tip 5:</strong></p>  
+                <p><a href="http://speakingjs.com/">speakingjs</a></p>
+                <p><a href="https://github.com/getify/You-Dont-Know-JS">youdontknowjs</a></p>
+                <p><a href="https://github.com/airbnb/javascript">Airbnb JS styleguide</a></p>
+                
+                <p><strong>Recommended tools:</strong></p>
+                <p>- when you make a script put <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Strict_mode"><strong>'use strict'</strong></a> on the top</p>
+                <p>- install <strong><a href="http://jshint.com/install/">JSHint</a></strong> plugin in your editor</p>
+                
+                <aside class="notes">
+                    Q&A here
+                    speakingjs - good learning book
+                    you dint know js ->  for a deep understanding of JS
+                    Airbnb styleguide -> quick overview of language
+                 </aside>                
+            </section>
+                       
+            
+            <section>
+                <h2>ECMA 262</h2>
+                <p>Javascript <a href="https://en.wikipedia.org/wiki/ECMAScript#6th_Edition">versions</a></p>
+                <ul>
+                    <li>ES3 -> 1999</li>
+                    <li>ES5 / ES5.1 -> 2009</li>
+                    <li>ES6 / ES2015 -> 2015</li>
+                    <li>ES7 / ES2016 -> 2016</li>
+                </ul>
+                
+                <aside class="notes">
+                        After the specification is complete, it takes time before browsers get support for the new additions.
+                        Since web technology is changing fast, ECMA wants to start releasing minor updates every year, rather than rare and big changes.
+                </aside>
+            </section>
+            
+            <section>
+                <h2>ES6 today</h2>
+                <p>
+                    Browsers dont support ES6 <a href="https://kangax.github.io/compat-table/es6/">fully</a> yet (about 60%-80% today).
+                    Therefore we will have to setup a <em>transpiler</em> (translate-compiler) to transform our code into ES5 code that the browser can understand.
+                </p>
+                
+                <p class="fragment">After installing either <a href="https://babeljs.io/docs/setup/#node">babeljs</a> or <a href="http://www.typescriptlang.org/#Download">Typescript</a></p>
+                
+                <aside class="notes">
+                    https://nodejs.org/en/ is a prerequest for this
+                </aside>
+            </section>
+            
+            <section>
+                <pre><code class="hljs" data-trim contenteditable>
+//ES6 code
+let name = "Bill";  //new var
+const language = "ES6"; //new constant var
+
+let string = `${name} is writing code
+in ${language}, on multiple lines.
+No Problem`; //multiline string with variables with backticks ` `
+ 
+name.inculdes("Bill"); //true
+ 
+function add(a, b = 2) {//b default value
+    return a+b;
+}
+ 
+add(5); //7
+add(7, 3) //10
+ 
+                </code></pre>
+                <p>More on whats new in <a href="https://github.com/lukehoban/es6features">ES6</a></p>
+            </section>
+            
+            <section>
+                <h2>Thank you!</h2>
+                <p><em>s236611</em> Send me an email</p>
+                <p>if you send an ES6 question to Orakel, I'll try to answer</p>
+                <p>Github</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+        // Full list of configuration options available at:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            width: 1200,
+            height: 500,
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+            // Optional reveal.js plugins
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                //{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true },
+                { src: 'plugin/notes/notes.js', async: true }
+            ]
+        });
+
+    </script>
+
+</body>
+</html>
